@@ -1,0 +1,320 @@
+<strong>library</strong> atm
+<br />
+<br /><strong>from</strong> atmAux <strong>get</strong> <em>Nat</em>, <em>List</em>, <em>Queue</em>
+<br />
+<br /><strong>spec</strong> <em>Port</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Port ::= userCom | bankCom | atmCom | atmCompl | bankCompl
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>Message</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>Port</em>
+<br /><strong>then</strong> <strong>sorts</strong> CardId, Pin
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Event
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ::= card(CardId)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | PIN(Pin)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | verify(CardId; Pin)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | reenterPIN
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | keepCard
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | markInvalid(CardId)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | verified
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | ejectCard
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> completion events</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | PINEnteredCompl
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | VerifiedCompl
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | VerifyingCompl
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | VeriSuccessCompl
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | VeriFailCompl
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong> Message ::= msg(port : Port; event : Event)
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>Atm</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>Port</em>
+<br /><strong>and </strong> <em>Nat</em>
+<br /><strong>and </strong> <em>Message</em>
+<br /><strong>then</strong> <em>List</em>[<strong>sort</strong> Message]
+<br /><strong>and </strong> <em>Queue</em>[<strong>sort</strong> Message]
+<br /><strong>then</strong> <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; AtmCtrl ::= Idle | CardEntered | PINEntered | Verifying | Verified
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; AtmConf
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ::= atmConf(ctrl : AtmCtrl;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cardId : CardId;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pin : Pin;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; trialsNum : Nat)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> atmInit : AtmConf
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> atmTrans : AtmConf * Message * List[Message] * AtmConf
+<br /><strong>then</strong> forall g : AtmConf; input : Message; output : List[Message];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; s1, s2 : AtmCtrl; c1, c2 : CardId; p1, p2 : Pin; t1, t2 : Nat
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> ctrl before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> cardId before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> pin before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> trialsNum before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . atmInit(g) &lt;=&gt; ctrl(g) = Idle %(<small><em>AtmInit</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . atmTrans(atmConf(s1, c1, p1, t1), input, output,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; atmConf(s2, c2, p2, t2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; exists c : CardId; p : Pin
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . (s1 = Idle /\ input = msg(userCom, card(c)) /\ output = [ ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ c2 = c /\ s2 = CardEntered /\ p2 = p1 /\ t2 = t1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = CardEntered /\ input = msg(userCom, PIN(p))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(atmCompl, PINEnteredCompl) ] /\ p2 = p
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = PINEntered /\ c2 = c1 /\ t2 = t1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = PINEntered /\ input = msg(atmCompl, PINEnteredCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(bankCom, verify(c1, p1)) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = Verifying /\ c2 = c1 /\ p2 = p1 /\ t2 = t1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verifying /\ input = msg(bankCom, reenterPIN)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ t1 &lt; 3 /\ output = [ ] /\ t2 = t1 + 1
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = CardEntered /\ c2 = c1 /\ p2 = p1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verifying /\ input = msg(bankCom, reenterPIN)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ t1 &gt;= 3 /\ output = [ msg(userCom, keepCard) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ t2 = 0 /\ s2 = Idle /\ c2 = c1 /\ p2 = p1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verifying /\ input = msg(bankCom, verified)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(atmCompl, VerifiedCompl) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = Verified /\ c2 = c1 /\ p2 = p1 /\ t2 = t1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verified /\ input = msg(atmCompl, VerifiedCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(userCom, ejectCard) ] /\ t2 = 0
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = Idle /\ c2 = c1 /\ p2 = p1) %(<small><em>AtmTrans</em></small>)%
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>Bank</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>Port</em>
+<br /><strong>and </strong> <em>Message</em>
+<br /><strong>and </strong> <em>Nat</em>
+<br /><strong>then</strong> <em>List</em>[<strong>sort</strong> Message]
+<br /><strong>and </strong> <em>Queue</em>[<strong>sort</strong> Message]
+<br /><strong>then</strong> <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; BankCtrl ::= Idle | Verifying | VeriSuccess | VeriFail
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong> BankConf ::= bankConf(ctrl : BankCtrl; wasVerified : Nat)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> bankInit : BankConf
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> bankTrans : BankConf * Message * List[Message] * BankConf
+<br /><strong>then</strong> forall g : BankConf; input : Message; output : List[Message];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; s1, s2 : BankCtrl; w1, w2 : Nat
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> ctrl before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> wasVerified before and after</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . bankInit(g) &lt;=&gt; ctrl(g) = Idle %(<small><em>BankInit</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . bankTrans(bankConf(s1, w1), input, output, bankConf(s2, w2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; exists c : CardId; p : Pin
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . (s1 = Idle /\ input = msg(atmCom, verify(c, p))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(bankCompl, VerifyingCompl) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = Verifying /\ w2 = 0)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verifying /\ input = msg(bankCompl, VerifyingCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(bankCompl, VeriSuccessCompl) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ w2 = 1 /\ s2 = VeriSuccess)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = Verifying /\ input = msg(bankCompl, VerifyingCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(bankCompl, VeriFailCompl) ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = VeriFail /\ w2 = w1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = VeriSuccess
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ input = msg(bankCompl, VeriSuccessCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(atmCom, verified) ] /\ w2 = 0
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ s2 = Idle)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (s1 = VeriFail /\ input = msg(bankCompl, VeriFailCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ output = [ msg(atmCom, reenterPIN) ] /\ s2 = Idle
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ w2 = w1) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>BankTrans</em></small>)%
+<br /><strong>end</strong>
+<br />
+<br />
+<br />%%<small>%% from here on: composite structure diagram</small>
+<br /><strong>spec</strong> <em>Dist</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>Message</em>
+<br /><strong>then</strong> <em>List</em>[<strong>sort</strong> Message]
+<br /><strong>and </strong> <em>Queue</em>[<strong>sort</strong> Message]
+<br /><strong>then</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> Relation implementing connectors between ports. Specifies how messages are distributed into queues.</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> output: list of messages sent</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> qa1,qa2: queue of the atm (before and after distributing messages)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> qb1,qb2: queue of the bank (before and after distributing messages)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> dist
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (output : List[Message]; qa1, qa2, qb1, qb2 : Queue[Message])
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; exists e : Event; output&#39; : List[Message]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . (output = [ ] /\ qa2 = qa1 /\ qb2 = qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (output = msg(userCom, e) :: output&#39;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ dist(output&#39;, qa1, qa2,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(atmCom, e), qb1), qb2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (output = msg(bankCom, e) :: output&#39;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ dist(output&#39;, qa1, qa2,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(atmCom, e), qb1), qb2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (output = msg(atmCom, e) :: output&#39;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ dist(output&#39;, enqueue(msg(bankCom, e), qa1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qa2, qb1, qb2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (output = msg(atmCompl, e) :: output&#39;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ dist(output&#39;, enqueue(msg(atmCompl, e), qa1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qa2, qb1, qb2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (output = msg(bankCompl, e) :: output&#39;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ dist(output&#39;, qa1, qa2,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(bankCompl, e), qb1), qb2));
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> no output in a transition leaves the two queues in the c-s-d untouched</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> if the msg was sent on port userCom, leaves the two queues in the c-s-d untouched</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> if the msg was sent on bankCom,</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> if the msg was sent on port bankCom, enqueue it in the queue attached to the atm</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> if the msg was sent on port atmCom, enqueue it in the queue attached to the bank</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> completion events stay on the same machine and port</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>Dist</em></small>)%
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>System</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>Atm</em>
+<br /><strong>and </strong> <em>Bank</em>
+<br /><strong>and </strong> <em>Dist</em>
+<br /><strong>then</strong> <strong>free</strong> <strong>type</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Conf
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ::= conf(ca : AtmConf;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qa : Queue[Message];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cb : BankConf;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qb : Queue[Message])
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>preds</strong> init : Conf;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; trans : Conf * Message * List[Message] * Conf
+<br /><strong>then</strong> forall ca1, ca2 : AtmConf; cb1, cb2 : BankConf;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qa1, qa2 : Queue[Message]; qb1, qb2 : Queue[Message];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; input : Message; output : List[Message]
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> atm config (before and after)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> bank config (before and after)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> atm queue (before and after)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> bank queue (before and after)</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> the message received</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> the messages sent</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . init(conf(ca1, qa1, cb1, qb1))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; atmInit(ca1) /\ bankInit(cb1) /\ qa1 = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb1 = empty &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>Init</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . trans(conf(ca1, qa1, cb1, qb1), input, output,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; conf(ca2, qa2, cb2, qb2))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; dist(output, qa1, qa2, qb1, qb2)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ ((atmTrans(ca1, input, output, ca2) /\ cb2 = cb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (bankTrans(cb1, input, output, cb2) /\ ca2 = ca1))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>Trans</em></small>)%
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>Proof</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>System</em>
+<br /><strong>then</strong> <strong>preds</strong> invar, safe : Conf
+<br /><strong>then</strong> forall ca : AtmConf; cb : BankConf; qa, qb : Queue[Message];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; g : Conf
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> Predicate for the safety property we want to show</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . safe(g)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; ctrl(ca(g)) = Verified =&gt; wasVerified(cb(g)) = 1
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>DefSafe</em></small>)%
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> Invariant predicate strong enough to show</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> - its own preservation and</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> - the safety property</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . invar(conf(ca, qa, cb, qb))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; exists x : Message
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . (ctrl(ca) = Idle /\ ctrl(cb) = Idle /\ qa = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = CardEntered /\ ctrl(cb) = Idle /\ qa = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = PINEntered /\ ctrl(cb) = Idle
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = enqueue(x, empty) /\ qb = empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = Idle /\ qa = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = enqueue(x, empty))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = Verifying
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = empty /\ qb = enqueue(x, empty))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = VeriSuccess
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = empty /\ qb = enqueue(x, empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ wasVerified(cb) = 1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = VeriFail /\ qa = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = enqueue(x, empty))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = Idle
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = enqueue(msg(bankCom, reenterPIN), empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verifying /\ ctrl(cb) = Idle
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = enqueue(msg(bankCom, verified), empty)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qb = empty /\ wasVerified(cb) = 1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \/ (ctrl(ca) = Verified /\ ctrl(cb) = Idle
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ qa = enqueue(x, empty) /\ qb = empty
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ wasVerified(cb) = 1) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>DefInvar</em></small>)%
+<br /><strong>then</strong> %<strong>implies</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; forall ca, ca1, ca2 : AtmConf; cb, cb1, cb2 : BankConf;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qa, qa1, qb, qb1 : Queue[Message]; g, g1, g2 : Conf; p, p1 : Pin;
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; c, c1 : CardId; t1 : Nat; w1 : Nat; m : Message
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> The invariant holds initially.</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . init(g) =&gt; invar(g) %(<small><em>ThmInit</em></small>)%
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> The ATM transitions preserve the invariant.</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(Idle, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2 = conf(atmConf(CardEntered, c, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans1</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(CardEntered, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(atmConf(PINEntered, c1, p, t1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(atmCompl, PINEnteredCompl), qa1), cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans2</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(PINEntered, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qa1) =e= msg(atmCompl, PINEnteredCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(atmConf(Verifying, c1, p1, t1), dequeue(qa1), cb1,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(atmCom, verify(c1, p1)), qb1))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans3</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qa1) =e= msg(bankCom, reenterPIN) /\ t1 &lt; 3
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(atmConf(CardEntered, c1, p1, t1 + 1), dequeue(qa1), cb1,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans4</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qa1) =e= msg(bankCom, reenterPIN) /\ t1 &gt;= 3
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans5</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qa1) =e= msg(atmCom, verified)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(atmConf(Verified, c1, p1, t1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(atmCompl, VerifiedCompl), dequeue(qa1)), cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans6</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(atmConf(Verified, c1, p1, t1), qa1, cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qa1) =e= msg(atmCompl, VerifiedCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans7</em></small>)%
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> The Bank transitions preserve the invariant.</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(ca1, qa1, bankConf(Idle, w1), qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qb1) =e= msg(atmCom, verify(c, p))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(ca1, qa1, bankConf(Verifying, 0),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(bankCompl, VerifyingCompl), dequeue(qb1)))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans8</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(ca1, qa1, bankConf(Verifying, w1), qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qb1) =e= msg(bankCompl, VerifyingCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(ca1, qa1, bankConf(VeriSuccess, 1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(bankCompl, VeriSuccessCompl), dequeue(qb1)))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans9</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(ca1, qa1, bankConf(Verifying, w1), qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qb1) =e= msg(bankCompl, VerifyingCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(ca1, qa1, bankConf(VeriFail, w1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enqueue(msg(bankCompl, VeriFailCompl), dequeue(qb1)))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans10</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(ca1, qa1, bankConf(VeriSuccess, w1), qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qb1) =e= msg(bankCompl, VeriSuccessCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(ca1, enqueue(msg(bankCom, verified), qa1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bankConf(Idle, w1), dequeue(qb1))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans11</em></small>)%
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . g1 = conf(ca1, qa1, bankConf(VeriFail, w1), qb1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ top(qb1) =e= msg(bankCompl, VeriFailCompl)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ g2
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = conf(ca1, enqueue(msg(bankCom, reenterPIN), qa1),
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bankConf(Idle, w1), dequeue(qb1))
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /\ invar(g1)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =&gt; invar(g2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %(<small><em>ThmTrans12</em></small>)%
+<br />
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> The invariant implies the safety property.</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . invar(g) =&gt; safe(g) %(<small><em>ThmSafe</em></small>)%
+<br /><strong>end</strong>

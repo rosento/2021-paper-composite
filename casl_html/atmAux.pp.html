@@ -1,0 +1,61 @@
+<strong>library</strong> atmAux
+<br />
+<br />%<strong>display</strong>(__&lt;=__ %<small>LATEX</small> <small>__\leq__</small>)%
+<br />%<strong>display</strong>(__&gt;=__ %<small>LATEX</small> <small>__\geq__</small>)%
+<br />%<strong>prec</strong>({__+__} &lt; {__*__})%
+<br />%<strong>left_assoc</strong>(__+__, __*__)%
+<br />%<strong>number</strong> __@@__
+<br />%<strong>right_assoc</strong>(__::__)%
+<br />%<strong>list</strong> [__], [], __::__
+<br />
+<br /><strong>spec</strong> <em>Nat</em> =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong> Nat ::= 0 | suc(Nat)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>ops &nbsp; &nbsp; </strong> __+__, __*__ : Nat * Nat -&gt; Nat
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>preds</strong> __&lt;=__, __&lt;__, __&gt;__, __&gt;=__ : Nat * Nat
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; forall n, m : Nat
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . 0 + n = n
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . suc(n) + m = suc(n + m)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . 0 * n = 0
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . suc(m) * n = n + m * n
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . 0 &lt;= n
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . not suc(n) &lt;= 0
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . suc(m) &lt;= suc(n) &lt;=&gt; m &lt;= n
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . m &gt;= n &lt;=&gt; n &lt;= m
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . m &lt; n &lt;=&gt; m &lt;= n /\ not m = n
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . m &gt; n &lt;=&gt; n &lt; m
+<br /><strong>then</strong> %<strong>def</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %%<small> Operations to represent natural numbers with digits:</small>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>ops &nbsp; &nbsp; </strong> 1 : Nat = suc(0);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2 : Nat = suc(1);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3 : Nat = suc(2);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4 : Nat = suc(3);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 5 : Nat = suc(4);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 6 : Nat = suc(5);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 7 : Nat = suc(6);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 8 : Nat = suc(7);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 9 : Nat = suc(8);
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; __@@__(m : Nat; n : Nat) : Nat = m * suc(9) + n %(<small><em>decimal_def</em></small>)%
+<br /><strong>then</strong> %<strong>implies</strong>
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>op &nbsp; &nbsp; &nbsp; </strong> __+__ : Nat * Nat -&gt; Nat, assoc, comm, unit 0
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>List</em>[<strong>sort</strong> S] =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>free</strong> <strong>type</strong> List[S] ::= [] | __::__(first :? S; rest :? List[S])
+<br /><strong>then</strong> <strong>ops &nbsp; &nbsp; </strong> __+__ : List[S] * S -&gt; List[S];
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; __++__ : List[S] * List[S] -&gt; List[S]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>pred </strong> elem : S * List[S]
+<br /><strong>then</strong> forall x, y : S; xs, ys : List[S]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . [ ] ++ ys = ys
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . (x :: xs) ++ ys = x :: (xs ++ ys)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . xs + y = xs ++ [ y ]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . elem(x, xs)
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;=&gt; exists y : S; ys : List[S]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; . xs = y :: ys /\ (x = y \/ elem(x, ys))
+<br /><strong>end</strong>
+<br />
+<br /><strong>spec</strong> <em>Queue</em>[<strong>sort</strong> S] =
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>List</em>[<strong>sort</strong> S]
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>with</strong> List[S] |-&gt; Queue[S], [] |-&gt; empty, first |-&gt; top,
+<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rest |-&gt; dequeue
+<br /><strong>then</strong> <strong>op &nbsp; &nbsp; &nbsp; </strong> enqueue(e : S; es : Queue[S]) : Queue[S] = es + e
+<br /><strong>end</strong>

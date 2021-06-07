@@ -1,0 +1,76 @@
+%display(__<=__ %LATEX __\leq__)%
+%display(__>=__ %LATEX __\geq__)%
+%prec({__+__}<{__*__})%
+%left_assoc(__+__, __*__)%
+%number __@@__
+
+%right_assoc(__::__)%
+%list [__], [], __::__
+
+spec Nat =
+  free type Nat ::= 0 | suc (Nat)
+  ops __+__, __*__ : Nat * Nat -> Nat;
+  preds __<=__, __<__, __>__, __>=__: Nat * Nat
+
+forall n,m: Nat
+. 0 + n = n
+. suc(n) + m = suc(n+m)
+
+. 0 * n = 0
+. suc(m) * n = n + m*n
+
+. 0 <= n
+. not suc(n) <= 0
+. suc(m) <=  suc(n) <=> m <= n
+
+. m >=n <=> n <= m
+. m < n <=> m <= n /\ not m=n 
+. m > n <=> n < m
+
+then %def
+%% Operations to represent natural numbers with digits:
+ops 1: Nat = suc(0);
+    2: Nat = suc(1);
+    3: Nat = suc(2);
+    4: Nat = suc(3);
+    5: Nat = suc(4);
+    6: Nat = suc(5);
+    7: Nat = suc(6);
+    8: Nat = suc(7);
+    9: Nat = suc(8);
+    __@@__(m: Nat; n: Nat): Nat = m * suc(9) + n %(decimal_def)%
+
+then %implies
+op __ + __ : Nat * Nat -> Nat, assoc, comm, unit 0;
+end
+
+spec List[sort S] =
+  free type List[S] ::= []
+                      | __ :: __ ( first :? S
+                                 , rest  :? List[S]
+                                 )
+then
+  ops __+__  : List[S] *      S  -> List[S]
+    ; __++__ : List[S] * List[S] -> List[S]
+  pred elem : S * List[S]
+then
+  forall x,y:S; xs,ys:List[S]
+  . []      ++ ys = ys
+  . (x::xs) ++ ys = x::(xs++ys)
+  . xs + y = xs ++ [y]
+  . elem(x,xs)
+    <=> ( exists y:S; ys:List[S]
+          . xs = y::ys /\ (x = y \/ elem(x,ys))
+        )
+end
+
+spec Queue[sort S] =
+  List[sort S] with List[S] |-> Queue[S]
+                  , []      |-> empty
+                  , first   |-> top
+                  , rest    |-> dequeue
+then
+  op  enqueue(e:S, es:Queue[S])
+    : Queue[S]
+    = es+e
+end

@@ -1,0 +1,273 @@
+from atmAux get Nat, List, Queue
+
+spec Port =
+  free type Port ::= userCom | bankCom | atmCom | atmCompl | bankCompl
+end
+
+spec Message =
+  Port
+then
+  sorts CardId, Pin
+  free type Event ::= card(CardId) | PIN(Pin)            | verify(CardId,Pin) | reenterPIN
+                    | keepCard     | markInvalid(CardId) | verified           | ejectCard
+                    %% completion events
+                    | PINEnteredCompl | VerifiedCompl
+                    | VerifyingCompl  | VeriSuccessCompl | VeriFailCompl
+  free type Message ::= msg(port : Port; event : Event)
+
+spec Atm =
+  Port and Nat and Message
+then
+  List[sort Message] and Queue[sort Message]
+then
+  free type AtmCtrl ::= Idle | CardEntered | PINEntered | Verifying | Verified
+  free type AtmConf ::= atmConf(ctrl : AtmCtrl; cardId : CardId; pin : Pin; trialsNum : Nat)
+  pred atmInit : AtmConf
+  pred atmTrans : AtmConf * Message * List[Message] * AtmConf
+then
+  forall g      : AtmConf
+       ; input  : Message
+       ; output : List[Message]
+       ; s1,s2  : AtmCtrl        %% ctrl      before and after
+       ; c1,c2  : CardId         %% cardId    before and after
+       ; p1,p2  : Pin            %% pin       before and after
+       ; t1,t2  : Nat            %% trialsNum before and after
+
+  . atmInit(g) <=> ctrl(g) = Idle                                        %(AtmInit)%
+  . atmTrans(atmConf(s1,c1,p1,t1), input, output, atmConf(s2,c2,p2,t2)) <=> (
+      exists c:CardId; p:Pin
+      . ( s1=Idle          /\ input=msg(userCom,card(c)) /\ output=[] /\ c2=c /\ s2=CardEntered
+                           /\          p2=p1 /\ t2=t1
+        )
+        \/
+        ( s1=CardEntered   /\ input=msg(userCom,PIN(p)) /\ output=[msg(atmCompl,PINEnteredCompl)] /\ p2=p     /\ s2=PINEntered
+                           /\ c2=c1 /\          t2=t1
+        )
+        \/
+        ( s1=PINEntered    /\ input=msg(atmCompl,PINEnteredCompl) /\ output=[msg(bankCom,verify(c1,p1))]      /\ s2 = Verifying
+                           /\ c2=c1 /\ p2=p1 /\ t2=t1
+        )
+        \/ ( s1=Verifying /\ input=msg(bankCom,reenterPIN) /\ t1<3  /\ output=[] /\ t2=t1+1                   /\ s2 = CardEntered
+                           /\ c2 = c1 /\ p2 = p1           )
+        \/ ( s1=Verifying /\ input=msg(bankCom,reenterPIN) /\ t1>=3 /\ output=[msg(userCom,keepCard)] /\ t2=0 /\ s2 = Idle
+                           /\ c2 = c1 /\ p2 = p1           )
+        \/
+        ( s1=Verifying     /\ input=msg(bankCom,verified) /\ output=[msg(atmCompl,VerifiedCompl)]             /\ s2=Verified
+                           /\ c2=c1 /\ p2=p1 /\ t2=t1
+        )
+        \/
+        ( s1=Verified      /\ input=msg(atmCompl,VerifiedCompl) /\ output=[msg(userCom,ejectCard)] /\ t2=0    /\ s2=Idle
+                           /\ c2=c1 /\ p2=p1
+        )
+    )                                                                   %(AtmTrans)%
+end
+
+spec Bank =
+  Port and Message and Nat
+then
+  List[sort Message] and Queue[sort Message]
+then
+  free type BankCtrl ::= Idle | Verifying | VeriSuccess | VeriFail
+  free type BankConf ::= bankConf(ctrl : BankCtrl; wasVerified : Nat)
+  pred bankInit : BankConf
+  pred bankTrans : BankConf * Message * List[Message] * BankConf
+then
+  forall g      : BankConf
+       ; input  : Message
+       ; output : List[Message]
+       ; s1,s2  : BankCtrl       %% ctrl      before and after
+       ; w1,w2  : Nat            %% wasVerified before and after
+
+  . bankInit(g) <=> ctrl(g) = Idle                                      %(BankInit)%
+  . bankTrans(bankConf(s1,w1), input, output, bankConf(s2,w2)) <=> (
+      exists c:CardId; p:Pin
+      . (s1=Idle /\ input=msg(atmCom,verify(c,p)) /\ output=[msg(bankCompl,VerifyingCompl)] /\ s2=Verifying /\ w2=0)
+        \/
+        (s1=Verifying /\ input=msg(bankCompl,VerifyingCompl) /\ output=[msg(bankCompl,VeriSuccessCompl)] /\ w2=1 /\ s2=VeriSuccess)
+        \/
+        (s1=Verifying /\ input=msg(bankCompl,VerifyingCompl) /\ output=[msg(bankCompl,VeriFailCompl)] /\ s2=VeriFail /\ w2=w1)
+        \/
+        (s1=VeriSuccess /\ input=msg(bankCompl,VeriSuccessCompl) /\ output=[msg(atmCom,verified)] /\ w2=0 /\ s2=Idle)
+        \/
+        (s1=VeriFail /\ input=msg(bankCompl,VeriFailCompl) /\ output=[msg(atmCom,reenterPIN)] /\ s2=Idle /\ w2=w1)
+    )                                                                   %(BankTrans)%
+end
+
+%%%% from here on: composite structure diagram 
+
+spec Dist =
+  Message
+then
+  List[sort Message] and Queue[sort Message]
+then
+  %% Relation implementing connectors between ports. Specifies how messages are distributed into queues.
+  %% output: list of messages sent
+  %% qa1,qa2: queue of the atm  (before and after distributing messages)
+  %% qb1,qb2: queue of the bank (before and after distributing messages)
+  pred dist(output:List[Message]; qa1,qa2,qb1,qb2:Queue[Message]) <=> (
+         exists e:Event; output':List[Message]
+         . %% no output in a transition leaves the two queues in the c-s-d untouched
+           ( output=[] /\ qa2=qa1 /\ qb2=qb1 )                                                                        
+           \/
+           %% if the msg was sent on port userCom, leaves the two queues in the c-s-d untouched
+           ( output=msg(userCom,e)::output' /\ dist(output',                        qa1 , qa2, enqueue(msg(atmCom,e),qb1), qb2) ) 
+           %% if the msg was sent on bankCom, 
+           \/
+           %% if the msg was sent on port bankCom, enqueue it in the queue attached to the atm
+           ( output=msg(bankCom,e)::output' /\ dist(output',                        qa1 , qa2, enqueue(msg(atmCom,e),qb1), qb2) )
+           \/
+           %% if the msg was sent on port atmCom, enqueue it in the queue attached to the bank
+           ( output=msg(atmCom, e)::output' /\ dist(output', enqueue(msg(bankCom,e),qa1), qa2,                       qb1 , qb2) )
+           \/
+           %% completion events stay on the same machine and port
+           ( output = msg(atmCompl, e)::output'  /\ dist(output', enqueue(msg(atmCompl,e),qa1), qa2,                 qb1 , qb2) )
+           \/
+           ( output = msg(bankCompl, e)::output' /\ dist(output', qa1, qa2,                enqueue(msg(bankCompl,e),qb1) , qb2) )
+       ) %(Dist)%
+end
+
+spec System =
+  Atm and Bank and Dist
+then
+  free type Conf ::= conf(ca:AtmConf; qa:Queue[Message]; cb:BankConf; qb:Queue[Message])
+  preds init : Conf
+      ; trans : Conf * Message * List[Message] * Conf
+then
+  forall ca1,ca2 : AtmConf         %% atm  config (before and after)
+       ; cb1,cb2 : BankConf        %% bank config (before and after)
+       ; qa1,qa2 : Queue[Message]  %% atm  queue  (before and after)
+       ; qb1,qb2 : Queue[Message]  %% bank queue  (before and after)
+       ; input   : Message         %% the message received
+       ; output  : List[Message]   %% the messages sent
+  . init(conf(ca1,qa1,cb1,qb1)) <=> atmInit(ca1) /\ bankInit(cb1) /\ qa1=empty /\ qb1=empty %(Init)%
+  . trans(conf(ca1,qa1,cb1,qb1), input, output, conf(ca2,qa2,cb2,qb2))
+      <=>
+      dist(output,qa1,qa2,qb1,qb2)
+      /\
+      ( ( atmTrans(ca1,input,output,ca2)  /\ cb2=cb1 )
+        \/
+        ( bankTrans(cb1,input,output,cb2) /\ ca2=ca1 )
+      )                                                                 %(Trans)%
+end
+
+spec Proof =
+  System
+then
+  preds invar, safe : Conf
+then
+  forall ca    : AtmConf
+       ; cb    : BankConf
+       ; qa,qb : Queue[Message]
+       ; g     : Conf
+
+  %% Predicate for the safety property we want to show
+  . safe(g) <=> (ctrl(ca(g)) = Verified => wasVerified(cb(g))=1)        %(DefSafe)%
+
+  %% Invariant predicate strong enough to show
+  %% - its own preservation and
+  %% - the safety property
+  . invar(conf(ca,qa,cb,qb)) <=> (
+      exists x : Message 
+      . ( ctrl(ca) = Idle        /\ ctrl(cb) = Idle        /\ qa = empty                                   /\ qb = empty                                  )
+        \/
+        ( ctrl(ca) = CardEntered /\ ctrl(cb) = Idle        /\ qa = empty                                   /\ qb = empty                                  )
+        \/
+        ( ctrl(ca) = PINEntered  /\ ctrl(cb) = Idle        /\ qa = enqueue(x,empty)                        /\ qb = empty                                  )
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = Idle        /\ qa = empty                                   /\ qb = enqueue(x,empty)                       )
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = Verifying   /\ qa = empty                                   /\ qb = enqueue(x,empty)                       )
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = VeriSuccess /\ qa = empty                                   /\ qb = enqueue(x,empty) /\ wasVerified(cb) = 1 ) 
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = VeriFail    /\ qa = empty                                   /\ qb = enqueue(x,empty)                      )
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = Idle        /\ qa = enqueue(msg(bankCom,reenterPIN),empty)  /\ qb = empty                                 )
+        \/
+        ( ctrl(ca) = Verifying   /\ ctrl(cb) = Idle        /\ qa = enqueue(msg(bankCom,verified),empty)    /\ qb = empty            /\ wasVerified(cb) = 1 )
+        \/
+        ( ctrl(ca) = Verified    /\ ctrl(cb) = Idle        /\ qa = enqueue(x,empty)                        /\ qb = empty            /\ wasVerified(cb) = 1 )
+    )                                                                   %(DefInvar)%
+
+then %implies
+  forall ca,ca1,ca2    : AtmConf
+       ; cb,cb1,cb2    : BankConf
+       ; qa,qa1,qb,qb1 : Queue[Message]
+       ; g,g1,g2       : Conf
+       ; p,p1          : Pin
+       ; c,c1          : CardId
+       ; t1            : Nat
+       ; w1            : Nat
+       ; m             : Message
+
+  %% The invariant holds initially.
+  . init(g)  => invar(g)  %(ThmInit)%
+
+  %% The ATM transitions preserve the invariant.
+  .    g1=conf(atmConf(Idle,c1,p1,t1),qa1,cb1,qb1)
+    /\ g2=conf(atmConf(CardEntered,c,p1,t1),qa1,cb1,qb1)
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans1)%
+  .    g1=conf(atmConf(CardEntered,c1,p1,t1),qa1,cb1,qb1)
+    /\ g2=conf(atmConf(PINEntered,c1,p,t1),enqueue(msg(atmCompl,PINEnteredCompl),qa1),cb1,qb1)
+    /\ invar(g1) => invar(g2)                                           %(ThmTrans2)%
+  .    g1=conf(atmConf(PINEntered,c1,p1,t1),qa1,cb1,qb1)
+    /\ top(qa1)=e=msg(atmCompl,PINEnteredCompl)
+    /\ g2=conf(atmConf(Verifying,c1,p1,t1),dequeue(qa1),cb1,enqueue(msg(atmCom,verify(c1,p1)),qb1))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans3)%
+  .    g1=conf(atmConf(Verifying,c1,p1,t1),qa1,cb1,qb1)
+    /\ top(qa1) =e= msg(bankCom,reenterPIN)
+    /\ t1<3
+    /\ g2=conf(atmConf(CardEntered,c1,p1,t1+1),dequeue(qa1),cb1,qb1)
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans4)%
+  .    g1=conf(atmConf(Verifying,c1,p1,t1),qa1,cb1,qb1)
+    /\ top(qa1) =e= msg(bankCom,reenterPIN)
+    /\ t1>=3
+    /\ g2=conf(atmConf(Idle,c1,p1,0),dequeue(qa1),cb1,qb1)
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans5)%
+  .    g1=conf(atmConf(Verifying,c1,p1,t1),qa1,cb1,qb1)
+    /\ top(qa1)=e=msg(atmCom,verified)
+    /\ g2=conf(atmConf(Verified,c1,p1,t1),enqueue(msg(atmCompl,VerifiedCompl),dequeue(qa1)),cb1,qb1)
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans6)%
+  .    g1=conf(atmConf(Verified,c1,p1,t1),qa1,cb1,qb1)
+    /\ top(qa1)=e=msg(atmCompl,VerifiedCompl)
+    /\ g2=conf(atmConf(Idle,c1,p1,0),dequeue(qa1),cb1,qb1)
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans7)%
+
+  %% The Bank transitions preserve the invariant.
+  .    g1=conf(ca1,qa1,bankConf(Idle,w1),qb1)
+    /\ top(qb1) =e= msg(atmCom,verify(c,p))
+    /\ g2=conf(ca1,qa1,bankConf(Verifying,0),enqueue(msg(bankCompl,VerifyingCompl),dequeue(qb1)))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans8)%
+  .    g1=conf(ca1,qa1,bankConf(Verifying,w1),qb1)
+    /\ top(qb1) =e= msg(bankCompl,VerifyingCompl)
+    /\ g2=conf(ca1,qa1,bankConf(VeriSuccess,1),enqueue(msg(bankCompl,VeriSuccessCompl),dequeue(qb1)))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans9)%
+  .    g1=conf(ca1,qa1,bankConf(Verifying,w1),qb1)
+    /\ top(qb1) =e= msg(bankCompl,VerifyingCompl)
+    /\ g2=conf(ca1,qa1,bankConf(VeriFail,w1),enqueue(msg(bankCompl,VeriFailCompl),dequeue(qb1)))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans10)%
+  .    g1=conf(ca1,qa1,bankConf(VeriSuccess,w1),qb1)
+    /\ top(qb1) =e= msg(bankCompl,VeriSuccessCompl)
+    /\ g2=conf(ca1,enqueue(msg(bankCom,verified),qa1),bankConf(Idle,w1),dequeue(qb1))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans11)%
+  .    g1=conf(ca1,qa1,bankConf(VeriFail,w1),qb1)
+    /\ top(qb1) =e= msg(bankCompl,VeriFailCompl)
+    /\ g2=conf(ca1,enqueue(msg(bankCom,reenterPIN),qa1),bankConf(Idle,w1),dequeue(qb1))
+    /\ invar(g1)
+    => invar(g2)                                                        %(ThmTrans12)%
+
+  %% The invariant implies the safety property.
+  . invar(g) => safe(g)   %(ThmSafe)%
+
+end
+
