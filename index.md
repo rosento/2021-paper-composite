@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+This is the digital appendix to a paper under review for publication at CALCO 2021. If accepted, we will update this site as necessary to reflect the camera-ready version of the paper and include information on how to cite us.
 
-You can use the [editor on GitHub](https://github.com/rosento/2021-paper-composite/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# Included files
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The following files are included:
 
-### Markdown
+- the main CASL specification
+  - [in raw form](./casl/atm.casl)
+  - [on github](https://github.com/rosento/2021-paper-composite/blob/gh-pages/casl/atm.casl)
+  - [in HTML](./casl_html/atm.pp.html),  with automatic formatting and light syntax highlighting by Hets
+- an auxiliary CASL specification
+  - [in raw form](./casl/atmAux.casl)
+  - [on github](https://github.com/rosento/2021-paper-composite/blob/gh-pages/casl/atmAux.casl)
+  - [in HTML](./casl_html/atmAux.pp.html), with automatic formatting and light syntax highlighting by Hets
+- the KIV project
+  - [as an auto-generated XHTML project description](./kiv_html/index.xml)
+  - [as a ZIP archive importable in KIV](./kiv/ATM-kiv-project.zip)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# Installing our KIV version
+KIV is offered as an eclipse plugin, which is recommended to be used as part of the Eclipse-based Scala IDE.
 
-```markdown
-Syntax highlighted code block
+We use Scala IDE version 4.7.0. Scala IDE is available [here](http://scala-ide.org/download/prev-stable.html).
 
-# Header 1
-## Header 2
-### Header 3
+We use KIV version 9. To install this:
+  1. install and start Scala IDE
+  2. choose the menu "Help" and then "Install New Software"
+  3. in the text field "Work with" enter the installation source "http://scala-ide.org/download/prev-stable.html"
+  4. select the items "KIV" and "KIV Dependencies"
+  5. click on "Finish" at the bottom of the window
+  6. restart Eclipse
 
-- Bulleted
-- List
+More information on KIV installation and usage can found on [this site](https://www.uni-augsburg.de/en/fakultaet/fai/isse/software/kiv/) by Augsburg University.
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/rosento/2021-paper-composite/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+To import our project:
+  1. download the [ZIP file](./kiv/ATM-kiv-project.zip)
+  2. start a Scala IDE with KIV installed
+  3. in the "File" menu, select "Import"
+  4. in the dialog that will open, select "KIV", then "Projects from KIV Archive"
+  5. choose the file you downloaded in step 1
+  6. click on "Finish"
