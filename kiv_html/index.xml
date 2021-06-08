@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Project ATM</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+        Back to the <a href="index.xml">index</a>.
+        View <a href="statistic.xml">project statistic</a>. 
+        View <a href="projectsymbols.xml">project symbols</a>. 
+View <a href="kivsymbols.xml">KIV symbols</a> to check that all symbols are available.
+<h1>Project ATM</h1><p>This is a detailed WWW representation of the KIV project
+<b>ATM</b> with specifications,
+theorems, and proofs. </p><p>You should begin with a look at the <a href="#specifications">specification graph</a> to get
+an overview over the specifications and their structure. From there you can browse the individual
+specifications and then the proofs. </p><p>The <a href="statistic.xml">project statistic</a> contains information about the number of
+theorems, proofs, proof steps, user interactions, etc.</p><p>The formulas use logical symbols like and, or, always, quantifiers, and mathematical symbols
+like empty set, union etc. To check which symbols are available in your browser you can take
+a look at the <a href="kivsymbols.xml">KIV symbols</a>.</p><p>The meaning of colors in proof trees is explained <a href="prooftree.xml">here</a>.</p><h2 id="specifications">Formal Specifications</h2><p>The development graph on the right hand side gives an overview of
+all specifications used in the project and their dependencies. Green specifications are
+defined in the current project and have completed proofs for all
+defined theorems. Orange specifications are imported from another
+project (typically a library). To view the details of a specification
+click the corresponding link on the left hand side.</p><table><tr><td valign="top"><h3>Project ATM</h3><table><tr><td>1.
+   </td><td><a href="specs/ATM/export/unit.xml">ATM</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>2.
+   </td><td><a href="specs/BasicSorts/export/unit.xml">BasicSorts</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>3.
+   </td><td><a href="specs/BasicTypes/export/unit.xml">BasicTypes</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>4.
+   </td><td><a href="specs/Conf/export/unit.xml">Conf</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>5.
+   </td><td><a href="specs/MessageList/export/unit.xml">MessageList</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>6.
+   </td><td><a href="specs/MessageQueue/export/unit.xml">MessageQueue</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr><tr><td>7.
+   </td><td><a href="specs/nat/export/unit.xml">nat</a></td><td>
+       (<font color="green">proved</font>)
+   </td></tr></table><h3>Library</h3><table/></td><td valign="top" style="padding: 0 0 0 50px;"><img src="devgraph.png"/></td></tr></table></body></html>

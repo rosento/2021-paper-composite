@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Color Codes in KIV Proof Trees</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+        Back to the <a href="index.xml">index</a>.
+        View <a href="statistic.xml">project statistic</a>. 
+        View <a href="projectsymbols.xml">project symbols</a>. 
+View <a href="kivsymbols.xml">KIV symbols</a> to check that all symbols are available.
+<h1>Color Codes in KIV Proof Trees</h1><p>Node colors in proof trees encode the type of applied rule as follows:</p><ul><li>Red nodes either use an induction rule, apply an induction hypothesis or apply the invariant rule for loops.</li><li>Green nodes instantiate quantifiers.</li><li>Blue nodes are either case splits or unfold procedure calls.</li><li>Brown nodes apply the weakening rule of sequent calculus.</li><li>Purple nodes either unwind loops or execute the step rule of KIV's temporal logic.</li><li>All other nodes are black and stand for simplification steps.</li></ul><p>Filled nodes are automatic steps done by some heuristic. Unfilled nodes are interactive steps.</p><p>Named premises are applied lemmas either from the current specification (green) or from some subspecification (blue).</p><p>Edges of closed proof branches are green. Edges that lead to open premises are red.</p></body></html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Theorem base summary for Specification ATM</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+	Back to <a href="../../../index.xml">main index</a>. 
+        View <a href="unit.xml">the specification</a>.
+        View <a href="lemmasummary.xml">theorem base summary</a>,
+        View <a href="lemmabase.xml">theorem base listing</a>,
+        the <a href="usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="dependency.xml">dependency list</a>, 
+        the <a href="symboltable.xml">symbol table</a>, 
+<h1> Theorem base summary for Specification ATM</h1><ul><li> Status: <font color="green">Proved!</font></li><li> Axioms:     16, 
+     User Theorems: 14
+     (Proved:     14, 
+     Partially proved: 0, 
+     Unproved:   0, 
+     Invalid:    0, 
+     Siginvalid: 0)
+</li><li> Proof steps:  54,
+     Interactions: 0</li></ul><table border="2" cellpadding="3"><tr><td class=" bggreen "><a href="Init/longlemmainfo.xml">Init(2,0)</a></td><td class=" bggreen "><a href="Trans12/longlemmainfo.xml">Trans12(2,0)</a></td><td class=" bggreen "><a href="Trans6/longlemmainfo.xml">Trans6(9,0)</a></td><td class=" bgyellow "><a href="add-suc/longlemmainfo.xml">add-suc(0,0)</a></td><td class=" bgyellow "><a href="concat-cons/longlemmainfo.xml">concat-cons(0,0)</a></td><td class=" bgyellow "><a href="geq-def/longlemmainfo.xml">geq-def(0,0)</a></td></tr><tr><td class=" bggreen "><a href="Safe/longlemmainfo.xml">Safe(3,0)</a></td><td class=" bggreen "><a href="Trans2/longlemmainfo.xml">Trans2(2,0)</a></td><td class=" bggreen "><a href="Trans7/longlemmainfo.xml">Trans7(2,0)</a></td><td class=" bgyellow "><a href="atmInit-def/longlemmainfo.xml">atmInit-def(0,0)</a></td><td class=" bgyellow "><a href="concat-empty/longlemmainfo.xml">concat-empty(0,0)</a></td><td class=" bgyellow "><a href="init-def/longlemmainfo.xml">init-def(0,0)</a></td></tr><tr><td class=" bggreen "><a href="Trans1/longlemmainfo.xml">Trans1(2,0)</a></td><td class=" bggreen "><a href="Trans3/longlemmainfo.xml">Trans3(2,0)</a></td><td class=" bggreen "><a href="Trans8/longlemmainfo.xml">Trans8(2,0)</a></td><td class=" bgyellow "><a href="atmTrans-def/longlemmainfo.xml">atmTrans-def(0,0)</a></td><td class=" bgyellow "><a href="dist-def/longlemmainfo.xml">dist-def(0,0)</a></td><td class=" bgyellow "><a href="invar-def/longlemmainfo.xml">invar-def(0,0)</a></td></tr><tr><td class=" bggreen "><a href="Trans10/longlemmainfo.xml">Trans10(2,0)</a></td><td class=" bggreen "><a href="Trans4/longlemmainfo.xml">Trans4(11,0)</a></td><td class=" bggreen "><a href="Trans9/longlemmainfo.xml">Trans9(2,0)</a></td><td class=" bgyellow "><a href="bankInit-def/longlemmainfo.xml">bankInit-def(0,0)</a></td><td class=" bgyellow "><a href="enqueue-empty/longlemmainfo.xml">enqueue-empty(0,0)</a></td><td class=" bgyellow "><a href="safe-def/longlemmainfo.xml">safe-def(0,0)</a></td></tr><tr><td class=" bggreen "><a href="Trans11/longlemmainfo.xml">Trans11(2,0)</a></td><td class=" bggreen "><a href="Trans5/longlemmainfo.xml">Trans5(11,0)</a></td><td class=" bgyellow "><a href="add-0/longlemmainfo.xml">add-0(0,0)</a></td><td class=" bgyellow "><a href="bankTrans-def/longlemmainfo.xml">bankTrans-def(0,0)</a></td><td class=" bgyellow "><a href="enqueue-snoc/longlemmainfo.xml">enqueue-snoc(0,0)</a></td><td class=" bgyellow "><a href="trans-def/longlemmainfo.xml">trans-def(0,0)</a></td></tr></table></body></html>

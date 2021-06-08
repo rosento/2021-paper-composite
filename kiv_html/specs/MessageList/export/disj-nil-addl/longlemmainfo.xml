@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Theorem disj-nil-addl</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+        View <a href="longlemmainfo.xml">long theorem info</a>.
+        View <a href="proof.xml">the proof</a>.
+	Back to <a href="../../../../index.xml">main index</a>. 
+        View <a href="../unit.xml">the specification</a>.
+        View <a href="../lemmasummary.xml">theorem base summary</a>,
+        View <a href="../lemmabase.xml">theorem base listing</a>,
+        the <a href="../usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="../dependency.xml">dependency list</a>, 
+        the <a href="../symboltable.xml">symbol table</a>, 
+<h1> Theorem disj-nil-addl</h1><table border="2" width="100%"><tr><td class="seq"> ⊦ [] ≠ m +l ms</td></tr></table><ul><li>Type: An axiom</li><li> Validity: The proof is valid.</li><li> Features: s, 
+                      ls, 
+                      </li><li> Comment:  </li><li> Used by:  </li><li> Used by units in proved state: 
+             <a href="../../../../specs/ATM/export/unit.xml">ATM</a>, 
+            </li><li> Proof exists?: No</li></ul></body></html>

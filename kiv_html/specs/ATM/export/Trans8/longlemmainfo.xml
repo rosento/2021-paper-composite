@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Theorem Trans8</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+        View <a href="longlemmainfo.xml">long theorem info</a>.
+        View <a href="proof.xml">the proof</a>.
+	Back to <a href="../../../../index.xml">main index</a>. 
+        View <a href="../unit.xml">the specification</a>.
+        View <a href="../lemmasummary.xml">theorem base summary</a>,
+        View <a href="../lemmabase.xml">theorem base listing</a>,
+        the <a href="../usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="../dependency.xml">dependency list</a>, 
+        the <a href="../symboltable.xml">symbol table</a>, 
+<h1> Theorem Trans8</h1><table border="2" width="100%"><tr><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(Idle, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(atmCom, verify(c, p))
+    ∧ g2 = conf(ca1, qa1, bankConf(Verifying, 0), enqueue(msg(bankCompl, VerifyingCompl), dequeue(qb1))) ∧ invar(g1)
+  → invar(g2)</td></tr></table><ul><li>Type: A user defined theorem</li><li> Validity: The proof is valid.</li><li> Features: </li><li> Comment:  </li><li> Used by:  </li><li> Used by units in proved state: 
+             </li><li> Proof exists?: Yes</li></ul><h2>View <a href="proof.xml">the proof</a></h2><h2>Infos about the proof</h2><ul><li class="bggreen"> Proved?: Yes</li><li> Interactions: 0</li><li> Proof steps: 2</li><li> Used lemmas: 
+             <a href="../enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+             <a href="../invar-def/longlemmainfo.xml">invar-def</a>, 
+             </li><li> Used spec theorems:
+             <ul/></li><li> Used simplifier rules:
+             <ul><li><a href="../../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../../specs/MessageList/export/inj-addl/longlemmainfo.xml">inj-addl</a></li><li><a href="../../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../../specs/MessageList/export/sel-addl-rest/longlemmainfo.xml">sel-addl-rest</a></li><li><a href="../../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../../specs/MessageList/export/disj-nil-addl/longlemmainfo.xml">disj-nil-addl</a></li><li><a href="../../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../../specs/MessageList/export/sel-addl-first/longlemmainfo.xml">sel-addl-first</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/disj-Idle0-Verifying0/longlemmainfo.xml">disj-Idle0-Verifying0</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/sel-bankConf-ctrl0/longlemmainfo.xml">sel-bankConf-ctrl0</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/disj-Verifying0-VeriFail/longlemmainfo.xml">disj-Verifying0-VeriFail</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/disj-Verifying0-VeriSuccess/longlemmainfo.xml">disj-Verifying0-VeriSuccess</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/disj-Idle0-VeriFail/longlemmainfo.xml">disj-Idle0-VeriFail</a></li><li><a href="../../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../../specs/BasicTypes/export/disj-Idle0-VeriSuccess/longlemmainfo.xml">disj-Idle0-VeriSuccess</a></li></ul></li></ul></body></html>

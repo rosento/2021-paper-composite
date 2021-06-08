@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Theorem base for Specification ATM</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+	Back to <a href="../../../index.xml">main index</a>. 
+        View <a href="unit.xml">the specification</a>.
+        View <a href="lemmasummary.xml">theorem base summary</a>,
+        View <a href="lemmabase.xml">theorem base listing</a>,
+        the <a href="usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="dependency.xml">dependency list</a>, 
+        the <a href="symboltable.xml">symbol table</a>, 
+<h1> Theorem base for Specification ATM</h1><p>This is a listing of all goals defined over the current
+specification. Axioms are marked yellow, proved theorems green and unproved theorems blue. Click on individual
+names to get more information on the proof.</p><table border="1" width="100%"><tr><th class="tableheadbig"> Name: </th><th class="tableheadbig"> Sequent: </th><th class="tableheadbig"> Type: </th></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="add-0/longlemmainfo.xml">add-0</a></td><td class="seq"> ⊦ 0 + m = m</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="add-suc/longlemmainfo.xml">add-suc</a></td><td class="seq"> ⊦ suc(n) + m = suc(n + m)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="geq-def/longlemmainfo.xml">geq-def</a></td><td class="seq"> ⊦ m &gt;= n ↔ n &lt; suc(m)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="concat-empty/longlemmainfo.xml">concat-empty</a></td><td class="seq"> ⊦ [] ++ ys = ys</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="concat-cons/longlemmainfo.xml">concat-cons</a></td><td class="seq"> ⊦ (x +l xs) ++ ys = x +l (xs ++ ys)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="atmInit-def/longlemmainfo.xml">atmInit-def</a></td><td class="seq"> ⊦ atmInit(ca) ↔ ctrl(ca) = Idle</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="bankInit-def/longlemmainfo.xml">bankInit-def</a></td><td class="seq"> ⊦ bankInit(cb) ↔ ctrl(cb) = Idle</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="init-def/longlemmainfo.xml">init-def</a></td><td class="seq"> ⊦ init(conf(ca, qa, cb, qb)) ↔ atmInit(ca) ∧ bankInit(cb) ∧ qa = empty ∧ qb = empty</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a></td><td class="seq"> ⊦ enqueue(y, empty) = y +l empty</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="enqueue-snoc/longlemmainfo.xml">enqueue-snoc</a></td><td class="seq"> ⊦ enqueue(y, x +l q) = x +l enqueue(y, q)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="atmTrans-def/longlemmainfo.xml">atmTrans-def</a></td><td class="seq">⊦   atmTrans(atmConf(sa1, c1, p1, t1), input, output, atmConf(sa2, c2, p2, t2))
+  ↔ (∃ c, p. 
+         sa1 = Idle ∧ input = msg(userCom, card(c)) ∧ output = [] ∧ c2 = c ∧ sa2 = CardEntered ∧ p2 = p1 ∧ t2 = t1
+       ∨   sa1 = CardEntered ∧ input = msg(userCom, PIN(p)) ∧ output = msg(atmCompl, PINEnteredCompl) +l [] ∧ p2 = p ∧ sa2 = PINEntered ∧ c2 = c1
+         ∧ t2 = t1
+       ∨   sa1 = PINEntered ∧ input = msg(atmCompl, PINEnteredCompl) ∧ output = msg(bankCom, verify(c1, p1)) +l [] ∧ sa2 = Verifying ∧ c2 = c1
+         ∧ p2 = p1 ∧ t2 = t1
+       ∨ sa1 = Verifying ∧ input = msg(bankCom, reenterPIN) ∧ t1 &lt; 3 ∧ output = [] ∧ t2 = t1 + 1 ∧ sa2 = CardEntered ∧ c2 = c1 ∧ p2 = p1
+       ∨   sa1 = Verifying ∧ input = msg(bankCom, reenterPIN) ∧ t1 &gt;= 3 ∧ output = msg(userCom, keepCard) +l [] ∧ t2 = 0 ∧ sa2 = Idle ∧ c2 = c1
+         ∧ p2 = p1
+       ∨ sa1 = Verifying ∧ input = msg(bankCom, verified) ∧ output = msg(atmCompl, VerifiedCompl) +l [] ∧ sa2 = Verified ∧ c2 = c1 ∧ p2 = p1 ∧ t2 = t1
+       ∨ sa1 = Verified ∧ input = msg(atmCompl, VerifiedCompl) ∧ output = msg(userCom, ejectCard) +l [] ∧ t2 = 0 ∧ sa2 = Idle ∧ c2 = c1 ∧ p2 = p1)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="bankTrans-def/longlemmainfo.xml">bankTrans-def</a></td><td class="seq">⊦   bankTrans(bankConf(sb1, w1), input, output, bankConf(sb2, w2))
+  ↔ (∃ c, p. 
+         sb1 = Idle ∧ input = msg(atmCom, verify(c, p)) ∧ output = msg(bankCompl, VerifyingCompl) +l [] ∧ sb2 = Verifying ∧ w2 = 0
+       ∨ sb1 = Verifying ∧ input = msg(bankCompl, VerifyingCompl) ∧ output = msg(bankCompl, VeriSuccessCompl) +l [] ∧ w2 = 1 ∧ sb2 = VeriSuccess
+       ∨ sb1 = Verifying ∧ input = msg(bankCompl, VerifyingCompl) ∧ output = msg(bankCompl, VeriFailCompl) +l [] ∧ sb2 = VeriFail ∧ w2 = w1
+       ∨ sb1 = VeriSuccess ∧ input = msg(bankCompl, VeriSuccessCompl) ∧ output = msg(atmCom, verified) +l [] ∧ w2 = 0 ∧ sb2 = Idle
+       ∨ sb1 = VeriFail ∧ input = msg(bankCompl, VeriFailCompl) ∧ output = msg(atmCom, reenterPIN) +l [] ∧ sb2 = Idle ∧ w2 = w1)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="dist-def/longlemmainfo.xml">dist-def</a></td><td class="seq">⊦   dist(output, qa1, qa2, qb1, qb2)
+  ↔ (∃ e, output'. 
+         output = [] ∧ qa2 = qa1 ∧ qb2 = qb1 ∨ output = msg(userCom, e) +l output' ∧ dist(output', qa1, qa2, qb1, qb2)
+       ∨ output = msg(bankCom, e) +l output' ∧ dist(output', qa1, qa2, enqueue(msg(atmCom, e), qb1), qb2)
+       ∨ output = msg(atmCom, e) +l output' ∧ dist(output', enqueue(msg(bankCom, e), qa1), qa2, qb1, qb2)
+       ∨ output = msg(atmCompl, e) +l output' ∧ dist(output', enqueue(msg(atmCompl, e), qa1), qa2, qb1, qb2)
+       ∨ output = msg(bankCompl, e) +l output' ∧ dist(output', qa1, qa2, enqueue(msg(bankCompl, e), qb1), qb2))</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="trans-def/longlemmainfo.xml">trans-def</a></td><td class="seq">⊦   trans(conf(ca1, qa1, cb1, qb1), input, output, conf(ca2, qa2, cb2, qb2))
+  ↔ dist(output, qa1, qa2, qb1, qb2) ∧ (atmTrans(ca1, input, output, ca2) ∧ cb2 = cb1 ∨ bankTrans(cb1, input, output, cb2) ∧ ca2 = ca1)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="safe-def/longlemmainfo.xml">safe-def</a></td><td class="seq"> ⊦ safe(g) ↔ ctrl(caConf(g)) = Verified → wasVerified(cbConf(g)) = 1</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bgyellow "><a style="font-size: 150%;" href="invar-def/longlemmainfo.xml">invar-def</a></td><td class="seq">⊦   invar(conf(ca, qa, cb, qb))
+  ↔ (∃ x. 
+         ctrl(ca) = Idle ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = empty ∨ ctrl(ca) = CardEntered ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = empty
+       ∨ ctrl(ca) = PINEntered ∧ ctrl(cb) = Idle ∧ qa = enqueue(x, empty) ∧ qb = empty
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = enqueue(x, empty)
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Verifying ∧ qa = empty ∧ qb = enqueue(x, empty)
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = VeriSuccess ∧ qa = empty ∧ qb = enqueue(x, empty) ∧ wasVerified(cb) = 1
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = VeriFail ∧ qa = empty ∧ qb = enqueue(x, empty)
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = enqueue(msg(bankCom, reenterPIN), empty) ∧ qb = empty
+       ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = enqueue(msg(bankCom, verified), empty) ∧ qb = empty ∧ wasVerified(cb) = 1
+       ∨ ctrl(ca) = Verified ∧ ctrl(cb) = Idle ∧ qa = enqueue(x, empty) ∧ qb = empty ∧ wasVerified(cb) = 1)</td><td> An Axiom </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Init/longlemmainfo.xml">Init</a></td><td class="seq"> ⊦ init(g) → invar(g)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Safe/longlemmainfo.xml">Safe</a></td><td class="seq"> ⊦ invar(g) → safe(g)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans1/longlemmainfo.xml">Trans1</a></td><td class="seq"> ⊦ g1 = conf(atmConf(Idle, c1, p1, t1), qa1, cb1, qb1) ∧ g2 = conf(atmConf(CardEntered, c, p1, t1), qa1, cb1, qb1) ∧ invar(g1) → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans10/longlemmainfo.xml">Trans10</a></td><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(Verifying, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(bankCompl, VerifyingCompl)
+    ∧ g2 = conf(ca1, qa1, bankConf(VeriFail, w1), enqueue(msg(bankCompl, VeriFailCompl), dequeue(qb1))) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans11/longlemmainfo.xml">Trans11</a></td><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(VeriSuccess, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(bankCompl, VeriSuccessCompl)
+    ∧ g2 = conf(ca1, enqueue(msg(bankCom, verified), qa1), bankConf(Idle, w1), dequeue(qb1)) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans12/longlemmainfo.xml">Trans12</a></td><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(VeriFail, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(bankCompl, VeriFailCompl)
+    ∧ g2 = conf(ca1, enqueue(msg(bankCom, reenterPIN), qa1), bankConf(Idle, w1), dequeue(qb1)) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans2/longlemmainfo.xml">Trans2</a></td><td class="seq">⊦     g1 = conf(atmConf(CardEntered, c1, p1, t1), qa1, cb1, qb1)
+    ∧ g2 = conf(atmConf(PINEntered, c1, p, t1), enqueue(msg(atmCompl, PINEnteredCompl), qa1), cb1, qb1) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans3/longlemmainfo.xml">Trans3</a></td><td class="seq">⊦     g1 = conf(atmConf(PINEntered, c1, p1, t1), qa1, cb1, qb1) ∧ qa1 ≠ empty ∧ top(qa1) = msg(atmCompl, PINEnteredCompl)
+    ∧ g2 = conf(atmConf(Verifying, c1, p1, t1), dequeue(qa1), cb1, enqueue(msg(atmCom, verify(c1, p1)), qb1)) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans4/longlemmainfo.xml">Trans4</a></td><td class="seq">⊦     g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1) ∧ qa1 ≠ empty ∧ top(qa1) = msg(bankCom, reenterPIN) ∧ t1 &lt; 3
+    ∧ g2 = conf(atmConf(CardEntered, c1, p1, t1+1), dequeue(qa1), cb1, qb1) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans5/longlemmainfo.xml">Trans5</a></td><td class="seq">⊦     g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1) ∧ qa1 ≠ empty ∧ top(qa1) = msg(bankCom, reenterPIN) ∧ t1 &gt;= 3
+    ∧ g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans6/longlemmainfo.xml">Trans6</a></td><td class="seq">⊦     g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1) ∧ qa1 ≠ empty ∧ top(qa1) = msg(atmCom, verified)
+    ∧ g2 = conf(atmConf(Verified, c1, p1, t1), enqueue(msg(atmCompl, VerifiedCompl), dequeue(qa1)), cb1, qb1) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans7/longlemmainfo.xml">Trans7</a></td><td class="seq">⊦     g1 = conf(atmConf(Verified, c1, p1, t1), qa1, cb1, qb1) ∧ qa1 ≠ empty ∧ top(qa1) = msg(atmCompl, VerifiedCompl)
+    ∧ g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans8/longlemmainfo.xml">Trans8</a></td><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(Idle, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(atmCom, verify(c, p))
+    ∧ g2 = conf(ca1, qa1, bankConf(Verifying, 0), enqueue(msg(bankCompl, VerifyingCompl), dequeue(qb1))) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr><tr class=" bglightgrey "><td class=" bggreen "><a style="font-size: 150%;" href="Trans9/longlemmainfo.xml">Trans9</a></td><td class="seq">⊦     g1 = conf(ca1, qa1, bankConf(Verifying, w1), qb1) ∧ qb1 ≠ empty ∧ top(qb1) = msg(bankCompl, VerifyingCompl)
+    ∧ g2 = conf(ca1, qa1, bankConf(VeriSuccess, 1), enqueue(msg(bankCompl, VeriSuccessCompl), dequeue(qb1))) ∧ invar(g1)
+  → invar(g2)</td><td> A User Theorem </td></tr></table></body></html>

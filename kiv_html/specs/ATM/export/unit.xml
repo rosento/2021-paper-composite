@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Specification ATM</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+	Back to <a href="../../../index.xml">main index</a>. 
+        View <a href="unit.xml">the specification</a>.
+        View <a href="lemmasummary.xml">theorem base summary</a>,
+        View <a href="lemmabase.xml">theorem base listing</a>,
+        the <a href="usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="dependency.xml">dependency list</a>, 
+        the <a href="symboltable.xml">symbol table</a>, 
+<p/><div class="specheader"><center>  Specification ATM</center></div><pre>specification
+   using MessageList, Conf
+   functions 
+       . + . : nat × nat → nat;
+       . ++ . : MessageList × MessageList → MessageList;
+       enqueue : Message × MessageQueue → MessageQueue;
+   
+   predicates 
+       . &gt;= . : nat × nat;
+       elem : Message × MessageList;
+       dist : MessageList × MessageQueue × MessageQueue × MessageQueue × MessageQueue;
+       atmInit : AtmConf;
+       atmTrans : AtmConf × Message × MessageList × AtmConf;
+       bankInit : BankConf;
+       bankTrans : BankConf × Message × MessageList × BankConf;
+       trans : Conf × Message × MessageList × Conf;
+       init : Conf;
+       invar : Conf;
+       safe : Conf;
+   
+   variables 
+       c : CardId;
+       c1 : CardId;
+       c2 : CardId;
+       m : nat;
+       n : nat;
+       w : nat;
+       w1 : nat;
+       w2 : nat;
+       t : nat;
+       t1 : nat;
+       t2 : nat;
+       x : Message;
+       y : Message;
+       input : Message;
+       xs : MessageList;
+       ys : MessageList;
+       output : MessageList;
+       output' : MessageList;
+       q : MessageQueue;
+       qa : MessageQueue;
+       qa1 : MessageQueue;
+       qa2 : MessageQueue;
+       qb : MessageQueue;
+       qb1 : MessageQueue;
+       qb2 : MessageQueue;
+       sa : AtmCtrl;
+       sa1 : AtmCtrl;
+       sa2 : AtmCtrl;
+       ca : AtmConf;
+       ca1 : AtmConf;
+       ca2 : AtmConf;
+       sb : BankCtrl;
+       sb1 : BankCtrl;
+       sb2 : BankCtrl;
+       cb : BankConf;
+       cb1 : BankConf;
+       cb2 : BankConf;
+       g : Conf;
+       g1 : Conf;
+       g2 : Conf;
+   
+   
+   axioms 
+      add-0: 0 + m = m;
+      used for: s, ls;
+      
+      add-suc: suc(n) + m = suc(n + m);
+      used for: s, ls;
+      
+      geq-def: m &gt;= n ↔ n &lt; suc(m);
+      used for: s, ls;
+      
+      concat-empty: [] ++ ys = ys;
+      used for: s, ls;
+      
+      concat-cons: (x +l xs) ++ ys = x +l (xs ++ ys);
+      used for: s, ls;
+      
+      atmInit-def: atmInit(ca) ↔ ctrl(ca) = Idle;
+      used for: s, ls;
+      
+      bankInit-def: bankInit(cb) ↔ ctrl(cb) = Idle;
+      used for: s, ls;
+      
+      init-def: init(conf(ca, qa, cb, qb)) ↔ atmInit(ca) ∧ bankInit(cb) ∧ qa = empty ∧ qb = empty;
+      used for: s, ls;
+      
+      enqueue-empty: enqueue(y, empty) = y +l empty;
+      used for: s, ls;
+      
+      enqueue-snoc: enqueue(y, x +l q) = x +l enqueue(y, q);
+      used for: s, ls;
+      
+      atmTrans-def: 
+        atmTrans(atmConf(sa1, c1, p1, t1), input, output, atmConf(sa2, c2, p2, t2))
+      ↔ (∃ c, p. 
+             sa1 = Idle ∧ input = msg(userCom, card(c)) ∧ output = [] ∧ c2 = c ∧ sa2 = CardEntered ∧ p2 = p1 ∧ t2 = t1
+           ∨   sa1 = CardEntered ∧ input = msg(userCom, PIN(p)) ∧ output = msg(atmCompl, PINEnteredCompl) +l [] ∧ p2 = p ∧ sa2 = PINEntered ∧ c2 = c1
+             ∧ t2 = t1
+           ∨   sa1 = PINEntered ∧ input = msg(atmCompl, PINEnteredCompl) ∧ output = msg(bankCom, verify(c1, p1)) +l [] ∧ sa2 = Verifying ∧ c2 = c1
+             ∧ p2 = p1 ∧ t2 = t1
+           ∨ sa1 = Verifying ∧ input = msg(bankCom, reenterPIN) ∧ t1 &lt; 3 ∧ output = [] ∧ t2 = t1 + 1 ∧ sa2 = CardEntered ∧ c2 = c1 ∧ p2 = p1
+           ∨   sa1 = Verifying ∧ input = msg(bankCom, reenterPIN) ∧ t1 &gt;= 3 ∧ output = msg(userCom, keepCard) +l [] ∧ t2 = 0 ∧ sa2 = Idle ∧ c2 = c1
+             ∧ p2 = p1
+           ∨   sa1 = Verifying ∧ input = msg(bankCom, verified) ∧ output = msg(atmCompl, VerifiedCompl) +l [] ∧ sa2 = Verified ∧ c2 = c1 ∧ p2 = p1
+             ∧ t2 = t1
+           ∨ sa1 = Verified ∧ input = msg(atmCompl, VerifiedCompl) ∧ output = msg(userCom, ejectCard) +l [] ∧ t2 = 0 ∧ sa2 = Idle ∧ c2 = c1 ∧ p2 = p1);
+      used for: s, ls;
+      
+      bankTrans-def: 
+        bankTrans(bankConf(sb1, w1), input, output, bankConf(sb2, w2))
+      ↔ (∃ c, p. 
+             sb1 = Idle ∧ input = msg(atmCom, verify(c, p)) ∧ output = msg(bankCompl, VerifyingCompl) +l [] ∧ sb2 = Verifying ∧ w2 = 0
+           ∨ sb1 = Verifying ∧ input = msg(bankCompl, VerifyingCompl) ∧ output = msg(bankCompl, VeriSuccessCompl) +l [] ∧ w2 = 1 ∧ sb2 = VeriSuccess
+           ∨ sb1 = Verifying ∧ input = msg(bankCompl, VerifyingCompl) ∧ output = msg(bankCompl, VeriFailCompl) +l [] ∧ sb2 = VeriFail ∧ w2 = w1
+           ∨ sb1 = VeriSuccess ∧ input = msg(bankCompl, VeriSuccessCompl) ∧ output = msg(atmCom, verified) +l [] ∧ w2 = 0 ∧ sb2 = Idle
+           ∨ sb1 = VeriFail ∧ input = msg(bankCompl, VeriFailCompl) ∧ output = msg(atmCom, reenterPIN) +l [] ∧ sb2 = Idle ∧ w2 = w1);
+      used for: s, ls;
+      
+      dist-def: 
+        dist(output, qa1, qa2, qb1, qb2)
+      ↔ (∃ e, output'. 
+             output = [] ∧ qa2 = qa1 ∧ qb2 = qb1 ∨ output = msg(userCom, e) +l output' ∧ dist(output', qa1, qa2, qb1, qb2)
+           ∨ output = msg(bankCom, e) +l output' ∧ dist(output', qa1, qa2, enqueue(msg(atmCom, e), qb1), qb2)
+           ∨ output = msg(atmCom, e) +l output' ∧ dist(output', enqueue(msg(bankCom, e), qa1), qa2, qb1, qb2)
+           ∨ output = msg(atmCompl, e) +l output' ∧ dist(output', enqueue(msg(atmCompl, e), qa1), qa2, qb1, qb2)
+           ∨ output = msg(bankCompl, e) +l output' ∧ dist(output', qa1, qa2, enqueue(msg(bankCompl, e), qb1), qb2));
+      used for: s, ls;
+      
+      trans-def: 
+        trans(conf(ca1, qa1, cb1, qb1), input, output, conf(ca2, qa2, cb2, qb2))
+      ↔ dist(output, qa1, qa2, qb1, qb2) ∧ (atmTrans(ca1, input, output, ca2) ∧ cb2 = cb1 ∨ bankTrans(cb1, input, output, cb2) ∧ ca2 = ca1);
+      used for: s, ls;
+      
+      safe-def: safe(g) ↔ ctrl(caConf(g)) = Verified → wasVerified(cbConf(g)) = 1;
+      used for: s, ls;
+      
+      invar-def: 
+        invar(conf(ca, qa, cb, qb))
+      ↔ (∃ x. 
+             ctrl(ca) = Idle ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = empty ∨ ctrl(ca) = CardEntered ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = empty
+           ∨ ctrl(ca) = PINEntered ∧ ctrl(cb) = Idle ∧ qa = enqueue(x, empty) ∧ qb = empty
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = empty ∧ qb = enqueue(x, empty)
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Verifying ∧ qa = empty ∧ qb = enqueue(x, empty)
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = VeriSuccess ∧ qa = empty ∧ qb = enqueue(x, empty) ∧ wasVerified(cb) = 1
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = VeriFail ∧ qa = empty ∧ qb = enqueue(x, empty)
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = enqueue(msg(bankCom, reenterPIN), empty) ∧ qb = empty
+           ∨ ctrl(ca) = Verifying ∧ ctrl(cb) = Idle ∧ qa = enqueue(msg(bankCom, verified), empty) ∧ qb = empty ∧ wasVerified(cb) = 1
+           ∨ ctrl(ca) = Verified ∧ ctrl(cb) = Idle ∧ qa = enqueue(x, empty) ∧ qb = empty ∧ wasVerified(cb) = 1);
+      used for: s, ls;
+   
+   
+end specification</pre></body></html>

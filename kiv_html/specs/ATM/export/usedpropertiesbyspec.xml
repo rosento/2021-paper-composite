@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title> Used simplifier rules/spec theorems by specification </title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style></head><body>
+	Back to <a href="../../../index.xml">main index</a>. 
+        View <a href="unit.xml">the specification</a>.
+        View <a href="lemmasummary.xml">theorem base summary</a>,
+        View <a href="lemmabase.xml">theorem base listing</a>,
+        the <a href="usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="dependency.xml">dependency list</a>, 
+        the <a href="symboltable.xml">symbol table</a>, 
+<h1> Used simplifier rules/spec theorems by specification </h1><h2> Used from specification <a href="../../../specs/MessageList/export/unit.xml">MessageList</a></h2><ul><li><a href="../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../specs/MessageList/export/disj-nil-addl/longlemmainfo.xml">disj-nil-addl</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../specs/MessageList/export/elim-addl/longlemmainfo.xml">elim-addl</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             </li><li><a href="../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../specs/MessageList/export/inj-addl/longlemmainfo.xml">inj-addl</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../specs/MessageList/export/sel-addl-first/longlemmainfo.xml">sel-addl-first</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/MessageList/export/unit.xml">MessageList</a>/MessageQueue/<a href="../../../specs/MessageList/export/sel-addl-rest/longlemmainfo.xml">sel-addl-rest</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li></ul><h2> Used from specification <a href="../../../specs/nat/export/unit.xml">nat</a></h2><ul><li><a href="../../../specs/nat/export/unit.xml">nat</a>/<a href="../../../specs/nat/export/less-suc/longlemmainfo.xml">less-suc</a> 
+                 is used by
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             </li></ul><h2> Used from specification <a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a></h2><ul><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-CardEntered-PINEntered/longlemmainfo.xml">disj-CardEntered-PINEntered</a> 
+                 is used by
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-CardEntered-Verified/longlemmainfo.xml">disj-CardEntered-Verified</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Safe/longlemmainfo.xml">Safe</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-CardEntered-Verifying/longlemmainfo.xml">disj-CardEntered-Verifying</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle-CardEntered/longlemmainfo.xml">disj-Idle-CardEntered</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Trans1/longlemmainfo.xml">Trans1</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle-PINEntered/longlemmainfo.xml">disj-Idle-PINEntered</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Trans1/longlemmainfo.xml">Trans1</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle-Verified/longlemmainfo.xml">disj-Idle-Verified</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans1/longlemmainfo.xml">Trans1</a>, 
+                             <a href="Safe/longlemmainfo.xml">Safe</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle-Verifying/longlemmainfo.xml">disj-Idle-Verifying</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans1/longlemmainfo.xml">Trans1</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle0-VeriFail/longlemmainfo.xml">disj-Idle0-VeriFail</a> 
+                 is used by
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle0-VeriSuccess/longlemmainfo.xml">disj-Idle0-VeriSuccess</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Idle0-Verifying0/longlemmainfo.xml">disj-Idle0-Verifying0</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-PINEntered-Verified/longlemmainfo.xml">disj-PINEntered-Verified</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Safe/longlemmainfo.xml">Safe</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-PINEntered-Verifying/longlemmainfo.xml">disj-PINEntered-Verifying</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-VeriSuccess-VeriFail/longlemmainfo.xml">disj-VeriSuccess-VeriFail</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Verifying-Verified/longlemmainfo.xml">disj-Verifying-Verified</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Safe/longlemmainfo.xml">Safe</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Verifying0-VeriFail/longlemmainfo.xml">disj-Verifying0-VeriFail</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-Verifying0-VeriSuccess/longlemmainfo.xml">disj-Verifying0-VeriSuccess</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-bankCom-atmCom/longlemmainfo.xml">disj-bankCom-atmCom</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/disj-reenterPIN-verified/longlemmainfo.xml">disj-reenterPIN-verified</a> 
+                 is used by
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/elim-bankConf/longlemmainfo.xml">elim-bankConf</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/inj-msg/longlemmainfo.xml">inj-msg</a> 
+                 is used by
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/sel-atmConf-ctrl/longlemmainfo.xml">sel-atmConf-ctrl</a> 
+                 is used by
+                             <a href="Trans7/longlemmainfo.xml">Trans7</a>, 
+                             <a href="Trans6/longlemmainfo.xml">Trans6</a>, 
+                             <a href="Trans5/longlemmainfo.xml">Trans5</a>, 
+                             <a href="Trans4/longlemmainfo.xml">Trans4</a>, 
+                             <a href="Trans3/longlemmainfo.xml">Trans3</a>, 
+                             <a href="Trans2/longlemmainfo.xml">Trans2</a>, 
+                             <a href="Trans1/longlemmainfo.xml">Trans1</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/sel-bankConf-ctrl0/longlemmainfo.xml">sel-bankConf-ctrl0</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans8/longlemmainfo.xml">Trans8</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             <a href="Trans10/longlemmainfo.xml">Trans10</a>, 
+                             </li><li><a href="../../../specs/BasicTypes/export/unit.xml">BasicTypes</a>/<a href="../../../specs/BasicTypes/export/sel-bankConf-wasVerified/longlemmainfo.xml">sel-bankConf-wasVerified</a> 
+                 is used by
+                             <a href="Trans9/longlemmainfo.xml">Trans9</a>, 
+                             <a href="Trans12/longlemmainfo.xml">Trans12</a>, 
+                             <a href="Trans11/longlemmainfo.xml">Trans11</a>, 
+                             </li></ul><h2> Used from specification <a href="../../../specs/Conf/export/unit.xml">Conf</a></h2><ul><li><a href="../../../specs/Conf/export/unit.xml">Conf</a>/<a href="../../../specs/Conf/export/elim-conf/longlemmainfo.xml">elim-conf</a> 
+                 is used by
+                             <a href="Safe/longlemmainfo.xml">Safe</a>, 
+                             </li></ul></body></html>

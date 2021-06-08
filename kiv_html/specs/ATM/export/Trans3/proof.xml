@@ -1,0 +1,146 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title> Proof for Trans3</title>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta><style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style><style>
+.proof, .prooftree, .proof img {position: absolute; }
+.proofstep {margin: 5em; padding: 2em; display: none; position: absolute; background: white; border: solid black 1px; box-shadow: 0em 0em 2em rgba(0,0,0,0.2); }
+.proofstep:target {display: block; z-index: 999; }
+.proof a:target, .proof a:hover {border: dotted white 2px; border-radius: 20px; }
+</style></head>
+   <body>
+      View <a href="longlemmainfo.xml">long theorem info</a>.
+      View <a href="proof.xml">the proof</a>.
+      	Back to <a href="../../../../index.xml">main index</a>. 
+      View <a href="../unit.xml">the specification</a>.
+      View <a href="../lemmasummary.xml">theorem base summary</a>,
+      View <a href="../lemmabase.xml">theorem base listing</a>,
+      the <a href="../usedpropertiesbyspec.xml">used properties by spec</a>, 
+      the <a href="../dependency.xml">dependency list</a>, 
+      the <a href="../symboltable.xml">symbol table</a>, 
+      
+      <div class="proofstep" id="step1">
+         <h1>Proof step 1 from proof Trans3 (conclusion) 
+            	(<a href="#node1">back to tree</a>)
+            	
+         </h1>
+         <table border="2" width="100%">
+            <tr>
+               <td class="seq">&#8870;     g1 = conf(atmConf(PINEntered, c1, p1, t1), qa1, cb1, qb1) &#8743; qa1 &#8800; empty &#8743; top(qa1) = msg(atmCompl, PINEnteredCompl)
+                  &#8743; g2 = conf(atmConf(Verifying, c1, p1, t1), dequeue(qa1), cb1, enqueue(msg(atmCom, verify(c1, p1)), qb1)) &#8743; invar(g1)
+                    &#8594; invar(g2)
+               </td>
+            </tr>
+         </table>
+         <h2>System applied rule normalize</h2>
+         <h2>And obtained the following new goals</h2>
+         <ul>
+            <li><a href="#step2">Proof step 2</a>:
+               							
+               <p class="seq">g1 = conf(atmConf(PINEntered, c1, p1, t1), qa1, cb1, qb1), 
+                  g2 = conf(atmConf(Verifying, c1, p1, t1), dequeue(qa1), cb1, enqueue(msg(atmCom, verify(c1, p1)), qb1)), top(qa1) = msg(atmCompl,
+                  PINEnteredCompl), 
+                  qa1 &#8800; empty, invar(g1), &not; invar(g2)
+                  &#8870; 
+               </p>
+            </li>
+         </ul>
+         <h2>Rule argument</h2>
+         <h2>Additional information</h2>
+         <p class="seq"></p>
+      </div>
+      <div class="proofstep" id="step2">
+         <h1>Proof step 2 from proof Trans3 (<a href="#step1">previous step</a>)
+            	 
+            	(<a href="#node2">back to tree</a>)
+            	
+         </h1>
+         <table border="2" width="100%">
+            <tr>
+               <td class="seq">g1 = conf(atmConf(PINEntered, c1, p1, t1), qa1, cb1, qb1), 
+                  g2 = conf(atmConf(Verifying, c1, p1, t1), dequeue(qa1), cb1, enqueue(msg(atmCom, verify(c1, p1)), qb1)), top(qa1) = msg(atmCompl,
+                  PINEnteredCompl), 
+                  qa1 &#8800; empty, invar(g1), &not; invar(g2)
+                  &#8870; 
+               </td>
+            </tr>
+         </table>
+         <h2>Heuristic simplifier applied rule simplifier</h2>
+         <h2>And closed the goal!</h2>
+         <h2>Rule argument</h2>
+         <h2>Additional information</h2>
+         <p class="seq">Used simplifier rules:
+            invar-def: &#8870;   invar(conf(ca, qa, cb, qb))
+            &#8596; (&#8707; x. 
+            ctrl(ca) = Idle &#8743; ctrl(cb) = Idle &#8743; qa = empty &#8743; qb = empty
+            &#8744; ctrl(ca) = CardEntered &#8743; ctrl(cb) = Idle &#8743; qa = empty &#8743; qb = empty
+            &#8744;   ctrl(ca) = PINEntered &#8743; ctrl(cb) = Idle &#8743; qa = enqueue(x, empty)
+            &#8743; qb = empty
+            &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = Idle &#8743; qa = empty
+            &#8743; qb = enqueue(x, empty)
+            &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = Verifying &#8743; qa = empty
+            &#8743; qb = enqueue(x, empty)
+            &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = VeriSuccess &#8743; qa = empty
+            &#8743; qb = enqueue(x, empty) &#8743; wasVerified(cb) = 1
+            &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = VeriFail &#8743; qa = empty
+            &#8743; qb = enqueue(x, empty)
+            &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = Idle
+                     &#8743; qa = enqueue(msg(bankCom, reenterPIN), empty) &#8743; qb = empty
+                   &#8744;   ctrl(ca) = Verifying &#8743; ctrl(cb) = Idle
+                     &#8743; qa = enqueue(msg(bankCom, verified), empty) &#8743; qb = empty
+                     &#8743; wasVerified(cb) = 1
+                   &#8744;   ctrl(ca) = Verified &#8743; ctrl(cb) = Idle &#8743; qa = enqueue(x, empty)
+                     &#8743; qb = empty &#8743; wasVerified(cb) = 1);
+            enqueue-empty:  &#8870; enqueue(y, empty) = y +l empty;
+             &#8870; empty &#8800; m +l ms; (s)
+             &#8870; dequeue(m +l ms) = ms; (s)
+             &#8870; Idle &#8800; VeriFail; (s)
+             &#8870; Idle &#8800; VeriSuccess; (s)
+             &#8870; Idle &#8800; Verifying; (s)
+             &#8870; m +l ms = m0 +l ms0 &#8596; m = m0 &#8743; ms = ms0; (ws)
+             &#8870; top(m +l ms) = m; (s)
+             &#8870; Verifying &#8800; Verified; (s)
+             &#8870; ctrl(atmConf(sa, c, p, n)) = sa; (s)
+             &#8870; PINEntered &#8800; Verifying; (s)
+             &#8870; CardEntered &#8800; Verifying; (s)
+             &#8870; Idle &#8800; Verifying; (s)
+             &#8870; PINEntered &#8800; Verified; (s)
+             &#8870; CardEntered &#8800; PINEntered; (s)
+             &#8870; Idle &#8800; PINEntered; (s)
+         </p>
+      </div>
+      <div class="proof">
+         <h1> Proof Tree for	Trans3
+            (View <a href="#step1">conclusion</a>)
+            
+         </h1>
+         <p>The following image shows the proof tree of sequent calculus. The
+            proved goal is at the bottom. You can click on the nodes to view
+            additional rules. See <a href="../../../../prooftree.xml">here</a> for details on colors in a proof
+            tree.
+         </p>
+         <div class="prooftree"><img src="./proof-tree.png" alt="the proof tree"></img><a style="display: block; position: absolute; left: 23px; top: 63px; width: 20px; height: 20px;" id="node1" href="#step1"></a><a style="display: block; position: absolute; left: 23px; top: 23px; width: 20px; height: 20px;" id="node2" href="#step2"></a></div>
+      </div>
+   </body>
+</html>

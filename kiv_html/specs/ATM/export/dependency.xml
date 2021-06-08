@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title> Lemma dependencies for Specification ATM</title>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+      <style type="text/css">
+        .cent {text-indent:12px}
+	.bgyellow {background-color:#FFFF00}
+	.bgblue {background-color:#ade4FF}
+        .bglightblue {background-color:#8deeee}
+	.bggreen {background-color:#00FF00}
+	.bgred {background-color:#FF0000}
+	.bgpurple {background-color:#A020F0}
+	.bgorange {background-color:#ffa500}
+	.bggrey {background-color:#efefde}
+	.bglightgrey {background-color:#E5E5E5}
+	.tableheadsmall {background-color:#ade4FF; font-size:50%; text-indent:0px }
+	.tablehead {background-color:#ade4FF; font-size:100%; text-indent:0px }
+	.tableheadbig {background-color:#ade4FF; font-size:200% }
+	.specheader {background-color:#FFFF00; font-size:200% ; text-align: left}
+	.uninst     {color:red; font-size:200%}
+	.seq { white-space:pre; font-family:monospace ; font-size:150%  }
+	.lemmanamelink { vertical-align:top; font-size:150% ; text-align: left}
+	.axiomname {font-family:monospace; vertical-align:top; color:#00FF0F; font-size:150% ; text-align: left}
+	.usedspecs { font-size:150% ; text-align: left}
+	.comment { font-size:100% ; text-align: left}
+	.linkedspec { font-size:150% ; text-align: left}
+	</style>
+   </head>
+   <body>
+	Back to <a href="../../../index.xml">main index</a>. 
+        View <a href="unit.xml">the specification</a>.
+        View <a href="lemmasummary.xml">theorem base summary</a>,
+        View <a href="lemmabase.xml">theorem base listing</a>,
+        the <a href="usedpropertiesbyspec.xml">used properties by spec</a>, 
+        the <a href="dependency.xml">dependency list</a>, 
+        the <a href="symboltable.xml">symbol table</a>, 
+<h1> Lemma dependency for Specification ATM</h1>
+      <p>A lemma (entry) may depend on lemmas (entries) below its position, but never on lemmas
+        above its position. This means the list is a topological order of the dependency graph.
+        An entry 'all subs proved' means that all used lemmas are (transitively) proved.</p>
+      <table border="1">
+         <tr>
+            <th class="tablehead"> Name: </th>
+            <th class="tablehead"> Status: </th>
+            <th class="tablehead"> Subs proved? </th>
+            <th class="tablehead"> Used: </th>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Init/longlemmainfo.xml">Init</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		<a href="bankInit-def/longlemmainfo.xml">bankInit-def</a>, 
+		<a href="atmInit-def/longlemmainfo.xml">atmInit-def</a>, 
+		<a href="init-def/longlemmainfo.xml">init-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Safe/longlemmainfo.xml">Safe</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		<a href="safe-def/longlemmainfo.xml">safe-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans1/longlemmainfo.xml">Trans1</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans10/longlemmainfo.xml">Trans10</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans11/longlemmainfo.xml">Trans11</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans12/longlemmainfo.xml">Trans12</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans2/longlemmainfo.xml">Trans2</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans3/longlemmainfo.xml">Trans3</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans4/longlemmainfo.xml">Trans4</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		<a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans5/longlemmainfo.xml">Trans5</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		<a href="geq-def/longlemmainfo.xml">geq-def</a>, 
+		<a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans6/longlemmainfo.xml">Trans6</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans7/longlemmainfo.xml">Trans7</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		<a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans8/longlemmainfo.xml">Trans8</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bggreen ">
+            <td>
+               <a href="Trans9/longlemmainfo.xml">Trans9</a>
+            </td>
+            <td>proved</td>
+            <td>all subs proved
+		</td>
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>, 
+		<a href="invar-def/longlemmainfo.xml">invar-def</a>, 
+		</td>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="geq-def/longlemmainfo.xml">geq-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="safe-def/longlemmainfo.xml">safe-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="enqueue-empty/longlemmainfo.xml">enqueue-empty</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="init-def/longlemmainfo.xml">init-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="atmInit-def/longlemmainfo.xml">atmInit-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="bankInit-def/longlemmainfo.xml">bankInit-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+         <tr class=" bgyellow ">
+            <td>
+               <a href="invar-def/longlemmainfo.xml">invar-def</a>
+            </td>
+            <td>axiom</td>
+            <td/>
+            <td/>
+         </tr>
+      </table>
+   </body>
+</html>
