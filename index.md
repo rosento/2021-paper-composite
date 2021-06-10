@@ -16,7 +16,7 @@ The following files are included:
   - [as an auto-generated XHTML project description](./kiv_html/index.xml)
   - [as a ZIP archive importable in KIV](./kiv/ATM-kiv-project.zip)
 
-# Installing our KIV Bersion
+# Installing our KIV Version
 KIV is offered as an eclipse plugin, which is recommended to be used as part of the Eclipse-based Scala IDE.
 
 We use Scala IDE version 4.7.0. Scala IDE is available [here](http://scala-ide.org/download/prev-stable.html).
