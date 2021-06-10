@@ -61,7 +61,7 @@
                <p class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), 
                   g2 = conf(atmConf(Verified, c1, p1, t1), enqueue(msg(atmCompl, VerifiedCompl), dequeue(qa1)), cb1, qb1), top(qa1) = msg(atmCom,
                   verified), qa1 &#8800; empty, 
-                  invar(g1), &not; invar(g2)
+                  invar(g1), &#172; invar(g2)
                   &#8870; 
                </p>
             </li>
@@ -81,7 +81,7 @@
                <td class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), 
                   g2 = conf(atmConf(Verified, c1, p1, t1), enqueue(msg(atmCompl, VerifiedCompl), dequeue(qa1)), cb1, qb1), top(qa1) = msg(atmCom,
                   verified), qa1 &#8800; empty, 
-                  invar(g1), &not; invar(g2)
+                  invar(g1), &#172; invar(g2)
                   &#8870; 
                </td>
             </tr>

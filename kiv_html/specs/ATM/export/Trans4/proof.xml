@@ -61,7 +61,7 @@
                							
                <p class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(CardEntered, c1, p1, t1+1), dequeue(qa1), cb1,
                   qb1), 
-                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &lt; 3, invar(g1), &not; invar(g2)
+                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &lt; 3, invar(g1), &#172; invar(g2)
                   &#8870; 
                </p>
             </li>
@@ -80,7 +80,7 @@
             <tr>
                <td class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(CardEntered, c1, p1, t1+1), dequeue(qa1), cb1,
                   qb1), 
-                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &lt; 3, invar(g1), &not; invar(g2)
+                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &lt; 3, invar(g1), &#172; invar(g2)
                   &#8870; 
                </td>
             </tr>

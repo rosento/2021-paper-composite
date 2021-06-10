@@ -60,7 +60,7 @@
                							
                <p class="seq">g1 = conf(ca1, qa1, bankConf(VeriFail, w1), qb1), g2 = conf(ca1, enqueue(msg(bankCom, reenterPIN), qa1), bankConf(Idle, w1),
                   dequeue(qb1)), 
-                  top(qb1) = msg(bankCompl, VeriFailCompl), qb1 &#8800; empty, invar(g1), &not; invar(g2)
+                  top(qb1) = msg(bankCompl, VeriFailCompl), qb1 &#8800; empty, invar(g1), &#172; invar(g2)
                   &#8870; 
                </p>
             </li>
@@ -79,7 +79,7 @@
             <tr>
                <td class="seq">g1 = conf(ca1, qa1, bankConf(VeriFail, w1), qb1), g2 = conf(ca1, enqueue(msg(bankCom, reenterPIN), qa1), bankConf(Idle, w1),
                   dequeue(qb1)), 
-                  top(qb1) = msg(bankCompl, VeriFailCompl), qb1 &#8800; empty, invar(g1), &not; invar(g2)
+                  top(qb1) = msg(bankCompl, VeriFailCompl), qb1 &#8800; empty, invar(g1), &#172; invar(g2)
                   &#8870; 
                </td>
             </tr>

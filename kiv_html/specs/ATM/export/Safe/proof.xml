@@ -55,7 +55,7 @@
          <ul>
             <li><a href="#step2">Proof step 2</a>:
                							
-               <p class="seq">invar(g), &not; safe(g) &#8870; </p>
+               <p class="seq">invar(g), &#172; safe(g) &#8870; </p>
             </li>
          </ul>
          <h2>Rule argument</h2>
@@ -70,7 +70,7 @@
          </h1>
          <table border="2" width="100%">
             <tr>
-               <td class="seq">invar(g), &not; safe(g) &#8870; </td>
+               <td class="seq">invar(g), &#172; safe(g) &#8870; </td>
             </tr>
          </table>
          <h2>Heuristic simplifier applied rule simplifier</h2>

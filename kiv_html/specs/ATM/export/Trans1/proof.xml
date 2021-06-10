@@ -58,7 +58,7 @@
             <li><a href="#step2">Proof step 2</a>:
                							
                <p class="seq">g1 = conf(atmConf(Idle, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(CardEntered, c, p1, t1), qa1, cb1, qb1), invar(g1),
-                  &not; invar(g2) &#8870; 
+                  &#172; invar(g2) &#8870; 
                </p>
             </li>
          </ul>
@@ -75,7 +75,7 @@
          <table border="2" width="100%">
             <tr>
                <td class="seq">g1 = conf(atmConf(Idle, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(CardEntered, c, p1, t1), qa1, cb1, qb1), invar(g1),
-                  &not; invar(g2) &#8870; 
+                  &#172; invar(g2) &#8870; 
                </td>
             </tr>
          </table>

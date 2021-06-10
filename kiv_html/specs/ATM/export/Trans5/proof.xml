@@ -60,7 +60,7 @@
             <li><a href="#step2">Proof step 2</a>:
                							
                <p class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1), 
-                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &gt;= 3, invar(g1), &not; invar(g2)
+                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &gt;= 3, invar(g1), &#172; invar(g2)
                   &#8870; 
                </p>
             </li>
@@ -78,7 +78,7 @@
          <table border="2" width="100%">
             <tr>
                <td class="seq">g1 = conf(atmConf(Verifying, c1, p1, t1), qa1, cb1, qb1), g2 = conf(atmConf(Idle, c1, p1, 0), dequeue(qa1), cb1, qb1), 
-                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &gt;= 3, invar(g1), &not; invar(g2)
+                  top(qa1) = msg(bankCom, reenterPIN), qa1 &#8800; empty, t1 &gt;= 3, invar(g1), &#172; invar(g2)
                   &#8870; 
                </td>
             </tr>
