@@ -1,6 +1,6 @@
 This is the digital appendix to a paper under review for publication at CALCO 2021. If accepted, we will update this site as necessary to reflect the camera-ready version of the paper and include information on how to cite us.
 
-# Included files
+# Included Files
 
 The following files are included:
 
@@ -16,7 +16,7 @@ The following files are included:
   - [as an auto-generated XHTML project description](./kiv_html/index.xml)
   - [as a ZIP archive importable in KIV](./kiv/ATM-kiv-project.zip)
 
-# Installing our KIV version
+# Installing our KIV Bersion
 KIV is offered as an eclipse plugin, which is recommended to be used as part of the Eclipse-based Scala IDE.
 
 We use Scala IDE version 4.7.0. Scala IDE is available [here](http://scala-ide.org/download/prev-stable.html).
@@ -38,3 +38,28 @@ To import our project:
   4. in the dialog that will open, select "KIV", then "Projects from KIV Archive"
   5. choose the file you downloaded in step 1
   6. click on "Finish"
+
+# Our Hardware
+We verified the safety property on a laptop with the following hardware specification:
++----------------------------+-----------------+
+| Model Name 	             |  MacBook Pro    |
++----------------------------+-----------------+
+| Model Identifier 	         |  MacBookPro14,1 |
++----------------------------+-----------------+
+| Processor Name 	         |  Intel Core i5  |
++----------------------------+-----------------+
+| Processor Speed 	         |  2,3 GHz        |
++----------------------------+-----------------+
+| Number of Processors 	     |  1              |
++----------------------------+-----------------+
+| Total Number of Cores      |  2              |
++----------------------------+-----------------+
+| L2 Cache (per Core) 	     |  256 KB         |
++----------------------------+-----------------+
+| L3 Cache 	                 |  4 MB           |
++----------------------------+-----------------+
+| Hyper-Threading Technology |  Enabled        |
++----------------------------+-----------------+
+| Memory 	                 |  8 GB           |
++----------------------------+-----------------+
+
