@@ -41,25 +41,16 @@ To import our project:
 
 # Our Hardware
 We verified the safety property on a laptop with the following hardware specification:
-+----------------------------+-----------------+
+
 | Model Name 	             |  MacBook Pro    |
-+----------------------------+-----------------+
+|:---------------------------|:----------------|
 | Model Identifier 	         |  MacBookPro14,1 |
-+----------------------------+-----------------+
 | Processor Name 	         |  Intel Core i5  |
-+----------------------------+-----------------+
 | Processor Speed 	         |  2,3 GHz        |
-+----------------------------+-----------------+
 | Number of Processors 	     |  1              |
-+----------------------------+-----------------+
 | Total Number of Cores      |  2              |
-+----------------------------+-----------------+
 | L2 Cache (per Core) 	     |  256 KB         |
-+----------------------------+-----------------+
 | L3 Cache 	                 |  4 MB           |
-+----------------------------+-----------------+
 | Hyper-Threading Technology |  Enabled        |
-+----------------------------+-----------------+
 | Memory 	                 |  8 GB           |
-+----------------------------+-----------------+
 
