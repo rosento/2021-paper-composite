@@ -1,4 +1,4 @@
-This is the digital appendix to a paper under review for publication at CALCO 2021. If accepted, we will update this site as necessary to reflect the camera-ready version of the paper and include information on how to cite us.
+This is the digital appendix to a paper which has been accepted for publication at Fase 2022. We may update this site with links to the proceedings when they become available, as well as with bibliographic and similar information. A log of past versions of this appendix can be accessed [on github](https://github.com/rosento/2021-paper-composite/commit/006d0c5d2e0384d8233663aff64dc742ac21a80e).
 
 # Included Files
 
